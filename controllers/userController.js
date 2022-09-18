@@ -52,3 +52,19 @@ exports.updateUserById = catchAsync(async (req, res) => {
     });
   }
 });
+
+exports.deleteUserById = catchAsync(async (req, res) => {
+  const foundUser = await User.findByIdAndDelete(req.params.id);
+  if (foundUser) {
+    res.status(200).json({
+      status: "delete success",
+      data: {
+        user: foundUser,
+      },
+    });
+  } else {
+    res.status(404).json({
+      status: "not found",
+    });
+  }
+});

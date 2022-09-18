@@ -17,4 +17,9 @@ userRouter
   .all(authController.protect)
   .put(userController.updateUserById);
 
+userRouter
+  .route("/:id")
+  .all(authController.protect)
+  .delete(userController.deleteUserById);
+  
 module.exports = userRouter;
