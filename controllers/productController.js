@@ -40,3 +40,19 @@ exports.getProductById = catchAsync(async (req, res) => {
     });
   }
 });
+
+exports.updateProductById = catchAsync(async (req, res) => {
+  const updateProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false });
+  if (updateProduct) {
+    res.status(200).json({
+      status: "update success",
+      data: {
+        product: updateProduct,
+      },
+    });
+  } else {
+    res.status(404).json({
+      status: "not found",
+    });
+  }
+});
