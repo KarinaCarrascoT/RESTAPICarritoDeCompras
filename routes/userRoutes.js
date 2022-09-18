@@ -7,6 +7,11 @@ const userRouter = express.Router();
 userRouter
   .all(authController.protect)
   .route("/")
+  .get(userController.getAllUsers);
+
+userRouter
+  .all(authController.protect)
+  .route("/")
   .post(userController.addUser);
 
 userRouter.route("/:id")

@@ -21,6 +21,22 @@ exports.addUser = catchAsync(async (req, res) => {
   });
 });
 
+exports.getAllUsers = catchAsync(async (req, res) => {
+  const foundUser = await User.find();
+  if (foundUser) {
+    res.status(200).json({
+      status: "success",
+      data: {
+        user: foundUser,
+      },
+    });
+  } else {
+    res.status(404).json({
+      status: "not found",
+    });
+  }
+});
+
 exports.getUserById = catchAsync(async (req, res) => {
   const foundUser = await User.findById(req.params.id);
   if (foundUser) {
@@ -36,6 +52,7 @@ exports.getUserById = catchAsync(async (req, res) => {
     });
   }
 });
+
 
 exports.updateUserById = catchAsync(async (req, res) => {
   const updateUser = await User.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false });
