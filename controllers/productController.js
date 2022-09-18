@@ -56,3 +56,20 @@ exports.updateProductById = catchAsync(async (req, res) => {
     });
   }
 });
+exports.deleteProductById = catchAsync(async (req, res) => {
+  const foundProduct = await Product.findById(req.params.id);
+  const newProduct = await Product.findByIdAndDelete(req.params.id);
+  if (foundProduct) {
+    res.status(200).json({
+      status: "delete success",
+      data: {
+        product: foundProduct,
+      },
+    });
+  } else {
+    res.status(404).json({
+      status: "not found",
+    });
+  }
+});
+

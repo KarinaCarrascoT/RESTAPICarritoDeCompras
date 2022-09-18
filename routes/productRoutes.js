@@ -16,6 +16,11 @@ productRouter
   .route("/:id")
   .all(authController.protect)
   .put(productController.updateProductById);
+productRouter
+  .route("/:id")
+  .all(authController.protect)
+  .delete(productController.deleteProductById);
+
 
 
 module.exports = productRouter;
