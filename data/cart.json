@@ -1,0 +1,14 @@
+{
+    "_id": {
+      "$oid": "63278444fc71adb0d7a71595"
+    },
+    "userId": "632731a9bf210daff9d78b38",
+    "status": "PENDING",
+    "products": [
+      {
+        "productId": "63273d69f801205ea3321945",
+        "saleprice": 50,
+        "quantity": 2
+      }
+    ]
+  }
