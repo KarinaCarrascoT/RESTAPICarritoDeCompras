@@ -20,3 +20,19 @@ exports.addUser = catchAsync(async (req, res) => {
     },
   });
 });
+
+exports.getUserById = catchAsync(async (req, res) => {
+  const foundUser = await User.findById(req.params.id);
+  if (foundUser) {
+    res.status(200).json({
+      status: "success",
+      data: {
+        user: foundUser,
+      },
+    });
+  } else {
+    res.status(404).json({
+      status: "not found",
+    });
+  }
+});
