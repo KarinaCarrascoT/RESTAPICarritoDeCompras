@@ -4,11 +4,17 @@
     },
     "userId": "632731a9bf210daff9d78b38",
     "status": "PENDING",
-    "products": [
+    "productsCart": [
       {
         "productId": "63273d69f801205ea3321945",
+        "saleprice": 50,
+        "quantity": 2
+      },
+      {
+        "productId": "63274234449f51bf585a6a33",
         "saleprice": 50,
         "quantity": 2
       }
     ]
   }
+
