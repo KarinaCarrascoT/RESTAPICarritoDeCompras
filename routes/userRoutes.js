@@ -5,6 +5,7 @@ const authController = require("./../controllers/authController");
 const userRouter = express.Router();
 //routes
 userRouter
+  .all(authController.protect)
   .route("/")
   .post(userController.addUser);
 
