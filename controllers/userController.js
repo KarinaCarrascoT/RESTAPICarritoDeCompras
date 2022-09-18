@@ -36,3 +36,19 @@ exports.getUserById = catchAsync(async (req, res) => {
     });
   }
 });
+
+exports.updateUserById = catchAsync(async (req, res) => {
+  const updateUser = await User.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false });
+  if (updateUser) {
+    res.status(200).json({
+      status: "update success",
+      data: {
+        user: updateUser,
+      },
+    });
+  } else {
+    res.status(404).json({
+      status: "not found",
+    });
+  }
+});

@@ -12,4 +12,9 @@ userRouter.route("/:id")
   .all(authController.protect)
   .get(userController.getUserById);
 
+userRouter
+  .route("/:id")
+  .all(authController.protect)
+  .put(userController.updateUserById);
+
 module.exports = userRouter;
