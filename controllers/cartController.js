@@ -29,11 +29,15 @@ exports.AddProductUserCart = catchAsync(async (req, res, next) => {
     }
     else
     {
-      cartFound.productosCart = productosItems;
+      cartNew : new Cart;
+      cartNew.userId = userId
+      cartNew.estadus = "PENDING", 
+      cartNew.productosCart = productosItems;
+      Product.create(cartNew);
       res.status(200).json({
-        status_: "Have Shopping Cart PAID"  ,
+        status_: "Have Shopping Cart NEW"  ,
         data: {
-          Carts: cartFound
+          Carts: cartNew
         },       
       });
 
