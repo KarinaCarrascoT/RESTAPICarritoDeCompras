@@ -1,0 +1,8 @@
+{
+    "_id": {
+      "$oid": "632731a9bf210daff9d78b38"
+    },
+    "userName": "kc",
+    "password": "ad9cdbefb70da610b07dcc613934052a0996f5c0da58a2d9632ec966361de506",
+    "email": "kc@algo.com"
+  }

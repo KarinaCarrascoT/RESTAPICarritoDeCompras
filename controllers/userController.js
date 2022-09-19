@@ -55,6 +55,11 @@ exports.getUserById = catchAsync(async (req, res) => {
 
 
 exports.updateUserById = catchAsync(async (req, res) => {
+  req.body.password = crypto
+  .createHash("sha256")
+  .update(req.body.password)
+  .digest("hex");
+  
   const updateUser = await User.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false });
   if (updateUser) {
     res.status(200).json({
