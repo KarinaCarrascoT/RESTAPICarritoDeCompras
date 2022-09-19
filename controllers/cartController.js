@@ -61,14 +61,26 @@ exports.PaidUserCart = catchAsync(async (req, res, next) => {
 
     if(carts.status == "PENDING")
     {
-      carts.status = "PAID";
-      Cart.findByIdAndUpdate(id);
-      res.status(200).json({
-        status_: "Shopping Cart Status Changing to PAID"  ,
-        data: {
-          Carts: cartFound
-        },      
-      });
+      if(carts.productosItems.length>0)
+      {
+        carts.status = "PAID";
+        Cart.findByIdAndUpdate(id);
+        res.status(200).json({
+          status_: "Shopping Cart Status Changing to PAID"  ,
+          data: {
+            Carts: cartFound
+          },      
+        });
+      }
+      else
+      {
+        res.status(200).json({
+          status_: "Error, Shopping Cart is empty "  ,
+          data: {
+            Carts: cartFound
+          },      
+        });
+      }
     }
   }
  else {
