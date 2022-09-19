@@ -16,7 +16,7 @@ productRouter
   .route("/:id")
   .all(authController.protect)
   .put(productController.updateProductById);
-  productRouter
+productRouter
   .route("/:id")
   .all(authController.protect)
   .delete(productController.deleteProductById);

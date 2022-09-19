@@ -1,11 +1,11 @@
 const fs = require("fs");
 const Cart = require("../models/Cart");
-//const Product = require("../models/Cart");
 const catchAsync = require("../utils/catchAsync");
 
 //GET USER CART
-exports.getCartByUserId = catchAsync(async (req, res) => { //userId
-    const carts = await Cart.findOne({ userId: req.params.userId });
+
+exports.getCartByUserId = catchAsync(async (req, res, next) => {
+  const carts = await Cart.findOne({ userId : req.body.userId });
     if (carts) {
       res.status(200).json({
         status: "success",
@@ -22,13 +22,16 @@ exports.getCartByUserId = catchAsync(async (req, res) => { //userId
     }
   });
 
-/*exports.getProductById = catchAsync(async (req, res) => {
-  const foundProduct = await Product.findById(req.params.id);
-  if (foundProduct) {
+
+//UPDATE CART BY ID
+
+exports.updateProductById = catchAsync(async (req, res) => {
+  const foundCart = await Cart.findByIdAndUpdate(req.params.id);
+  if (foundCart) {
     res.status(200).json({
       status: "success",
       data: {
-        product: foundProduct,
+        Carts: foundCart,
       },
     });
   } else {
@@ -36,10 +39,12 @@ exports.getCartByUserId = catchAsync(async (req, res) => { //userId
       status: "not found",
     });
   }
-}); */
-//GET ALL
+});
+
+//GET ALL CARTS
+
 exports.getAllCarts = catchAsync(async (req, res) => {
-    const carts = await Cart.find({ userId: req.params.userId });
+    const carts = await Cart.find(); 
     res.status(200).json({
         status: "success",
         timeOfRequest: req.requestTime,
@@ -50,7 +55,8 @@ exports.getAllCarts = catchAsync(async (req, res) => {
       });
     });
 
-//DELETE
+//DELETE BY ID
+
 exports.deleteCartById = catchAsync(async (req, res) => {
     await Cart.findByIdAndDelete(req.params.id);
     res.status(200).json("Cart has been deleted...");
@@ -58,6 +64,7 @@ exports.deleteCartById = catchAsync(async (req, res) => {
 
     
 //UPDATE
+
 exports.updateCartById = catchAsync(async (req, res) => {
     const updatedCart = await Cart.findByIdAndUpdate(
         req.params.id,

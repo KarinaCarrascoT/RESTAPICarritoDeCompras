@@ -8,7 +8,7 @@ const cartSchema = new mongoose.Schema({
   status: { //PENDING o PAID
     type: String,
     required: true,
-    unique: true,
+    unique: false,
   },
   products: [
     {

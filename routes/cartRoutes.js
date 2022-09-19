@@ -2,6 +2,8 @@ const express = require("express");
 const cartController = require("./../controllers/cartController.js");
 const authController = require("./../controllers/authController");
 const cartRouter = express.Router();
+const productcartController = express.Router();
+
 //routes
 cartRouter
   .route("/")
@@ -12,10 +14,29 @@ cartRouter
   .route("/:id")
   .all(authController.protect)
   .delete(cartController.deleteCartById)
-  .get(cartController.getCartByUserId);
 
 cartRouter
-    .put("/:id")
-    .all(authController.protect);
+  .route("/:id")
+  .all(authController.protect)
+  .delete(cartController.deleteCartById)
+
+cartRouter
+  .route("/:id")
+  .all(authController.protect)
+  .put(cartController.updateCartById)
+
+cartRouter
+  .route("/")
+  .all(authController.protect)
+  .post(cartController.getCartByUserId);
+
+cartRouter
+  .route("/:id")
+  .all(authController.protect)
+  .put(cartController.updateCartById);
+
+productcartController
+  .all(authController.protect)
+  .post(productcartController)
 
 module.exports = cartRouter;
