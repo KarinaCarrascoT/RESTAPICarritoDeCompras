@@ -5,49 +5,49 @@ const catchAsync = require("../utils/catchAsync");
 
 //POST ADD PRODUCT TO CART
 exports.AddProductUserCart = catchAsync(async (req, res, next) => {
-  let { userId } = req.body.userId;
-  let { productsCart } = req.body.productsCart;
-
-  const cartFound = await Cart.findOne(userId);
+  let { userId, productsCart } = req.body;
+  let cartFound = await Cart.findOne({ userId : req.body.userId });
+  const productToAdd = Array.from(req.body.productsCart);
   if(cartFound)
   {
-    const carts = (await Cart.findOne(userId)).toObject();
-    var productosItems = carts.productosCart;
-
+    const carts = (await Cart.findOne({ userId : req.body.userId })).toObject();
+    const productosItems = Array.from(carts.productsCart);
     if(carts.status == "PENDING")
     {
-      for (i=0; i++; productosItems.length<0)
-      {
-        cartFound.productosCart.add(productosItems[i]);
-      }
-      await Cart.findByIdAndUpdate(cartFound.id);
+      productToAdd.forEach(element => {
+        productosItems.push(element);
+      });
+      cartFound.productosItems = productosItems;
+      const cartsUpdated = await Cart.findByIdAndUpdate(cartFound.id);
+
       res.status(200).json({
-        status_: "Have Shopping Cart AND Add Product"  ,
+        status_: "Have Shopping Cart AND Add Products"  ,
         data: {
-          Carts: cartFound
+          Carts: cartsUpdated
         },      
       });
     }
     else
     {
-      cartNew : new Cart;
-      cartNew.userId = userId
-      cartNew.estadus = "PENDING", 
-      cartNew.productosCart = productosItems;
-      Cart.create(cartNew);
-      res.status(200).json({
-        status_: "Have Shopping Cart NEW"  ,
-        data: {
-          Carts: cartNew
-        },       
+
+      res.status(404).json({
+        status_: "Create Shopping Cart - Status <> PENDING",
       });
 
     }
   }
  else {
-  res.status(404).json({
-    status_: "Create Shopping Cart",
-  });
+        cartNew = new Cart;
+        cartNew.userId = userId
+        cartNew.status = "PENDING", 
+        cartNew.productosItems = productToAdd;
+        await Cart.create(cartNew);
+        res.status(200).json({
+          status_: "Have Shopping Cart NEW"  ,
+          data: {
+            Carts: cartNew
+          },       
+        });
 }
 });
   
