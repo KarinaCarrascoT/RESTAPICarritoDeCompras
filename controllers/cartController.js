@@ -33,7 +33,7 @@ exports.AddProductUserCart = catchAsync(async (req, res, next) => {
       cartNew.userId = userId
       cartNew.estadus = "PENDING", 
       cartNew.productosCart = productosItems;
-      Product.create(cartNew);
+      Cart.create(cartNew);
       res.status(200).json({
         status_: "Have Shopping Cart NEW"  ,
         data: {
@@ -50,6 +50,34 @@ exports.AddProductUserCart = catchAsync(async (req, res, next) => {
 }
 });
   
+//POST PAID SHOPPING CART
+
+exports.PaidUserCart = catchAsync(async (req, res, next) => {
+  let { id } = req.params.id;
+  const cartFound = await Cart.findById(req.params.id);
+  if(cartFound)
+  {
+    const carts = (await Cart.findOne(userId)).toObject();
+
+    if(carts.status == "PENDING")
+    {
+      carts.status = "PAID";
+      Cart.findByIdAndUpdate(id);
+      res.status(200).json({
+        status_: "Shopping Cart Status Changing to PAID"  ,
+        data: {
+          Carts: cartFound
+        },      
+      });
+    }
+  }
+ else {
+  res.status(404).json({
+    status_: "Shopping Cart Pendig Not Found",
+  });
+}
+});
+
 
 //UPDATE CART BY ID
 

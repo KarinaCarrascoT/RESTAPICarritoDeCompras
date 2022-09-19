@@ -35,6 +35,12 @@ cartRouter
   .all(authController.protect)
   .post(cartController.AddProductUserCart);
 
+  cartRouter
+  .route("/product/:id")
+  .all(authController.protect)
+  .post(cartController.PaidUserCart);
+
+
 cartRouter
   .route("/:id")
   .all(authController.protect)
