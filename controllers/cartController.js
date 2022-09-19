@@ -20,6 +20,7 @@ exports.AddProductUserCart = catchAsync(async (req, res, next) => {
       {
         cartFound.productosCart.add(productosItems[i]);
       }
+      await Cart.findByIdAndUpdate(cartFound.id);
       res.status(200).json({
         status_: "Have Shopping Cart AND Add Product"  ,
         data: {
@@ -51,7 +52,6 @@ exports.AddProductUserCart = catchAsync(async (req, res, next) => {
 });
   
 //POST PAID SHOPPING CART
-
 exports.PaidUserCart = catchAsync(async (req, res, next) => {
   let { id } = req.params.id;
   const cartFound = await Cart.findById(req.params.id);
@@ -64,7 +64,7 @@ exports.PaidUserCart = catchAsync(async (req, res, next) => {
       if(carts.productosItems.length>0)
       {
         carts.status = "PAID";
-        Cart.findByIdAndUpdate(id);
+        await Cart.findByIdAndUpdate(id);
         res.status(200).json({
           status_: "Shopping Cart Status Changing to PAID"  ,
           data: {
@@ -86,6 +86,40 @@ exports.PaidUserCart = catchAsync(async (req, res, next) => {
  else {
   res.status(404).json({
     status_: "Shopping Cart Pendig Not Found",
+  });
+}
+});
+
+//DELETE PRODUCT TO CART
+exports.RemoveProductUserCart = catchAsync(async (req, res, next) => {
+  let { userId } = req.body.userId;
+  let { productsCart } = req.body.productsCart;
+
+  const cartFound = await Cart.findOne(userId);
+  if(cartFound)
+  {
+    const carts = (await Cart.findOne(userId)).toObject();
+    var productosItems = carts.productosCart;
+
+    if(carts.status == "PENDING")
+    {
+      for (i=0; i++; productosItems.length<0)
+      {
+        cartFound.productosCart(productosItems[i]);
+        cartFound.productosCart = cartFound.productosCart.filter(data => data.ProductID != productosItems[i].ProductID);
+      }
+      await Cart.findByIdAndUpdate(cartFound.id);
+      res.status(200).json({
+        status_: "Have Shopping Cart AND Add Product"  ,
+        data: {
+          Carts: cartFound
+        },      
+      });
+    }
+  }
+ else {
+  res.status(404).json({
+    status_: "Not Found",
   });
 }
 });

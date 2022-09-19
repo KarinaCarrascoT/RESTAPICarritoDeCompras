@@ -36,6 +36,11 @@ cartRouter
   .post(cartController.AddProductUserCart);
 
   cartRouter
+  .route("/product")
+  .all(authController.protect)
+  .delete(cartController.RemoveProductUserCart);
+  
+  cartRouter
   .route("/product/:id")
   .all(authController.protect)
   .post(cartController.PaidUserCart);
